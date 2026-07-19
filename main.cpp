@@ -1,10 +1,39 @@
 #include "./src/module-blink/blink.hpp"
+#include "./src/module-uart/uard.hpp"
+#include "./src/module-cmd/cmd.hpp"
+
 
 int main()
 {   
+    // get instance  
+    UartTask& uart = UartTask::get_instance();
+
+    // init 
+    uart.initTask();
+
+
+
+
     while(1){
-        Blink& blink_obj = Blink::get_blink_instence();
-        blink_obj.blink(ACTION_to_BLINK::NOWAY);
+        // here we only have a single thread to process we are not doing with mutipile threads so we need to do a sertain amount of task and move forward . 
+
+        // ex:- on an led from cmd from uard 
+        // 1, uart task take take the cmd from uard interface pass it to module-cmd and it is done
+        // 2, cmd reads the cmd, decodes it and send it module-Blink
+        // 3, when blink task comes it goes into process task rotine and then make teh led on  
+        
+        // our task's
+        // Uart task 
+        // cmd task
+        // tlm task
+        // blink 
+
+        
+        unsigned char data[] = { 1,2,3,4,5,6,7,8,9 };
+        Cmd one(0,2,9,&data );
+        uart.nxt_cmd_queue[uart.nxt_cmd_queue_cap++] = one ;
+        uart.task();
+        
     }
     return 0;
 }

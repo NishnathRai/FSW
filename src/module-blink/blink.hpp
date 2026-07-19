@@ -1,3 +1,5 @@
+#pragma once
+
 enum class ACTION_to_BLINK
 {
     NOWAY,
