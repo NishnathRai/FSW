@@ -1,21 +1,40 @@
-#include <avr/io.h>
-#include <util/delay.h>
+#include "./src/module-blink/blink.hpp"
+#include "./src/module-uart/uard.hpp"
+#include "./src/module-cmd/cmd.hpp"
 
-#define F_CPU 16000000UL
 
 int main()
-{
-    // PB5 = Arduino Digital Pin 13 (Built-in LED)
-    DDRB |= (1 << PB5);
+{   
+    // get instance  
+    UartTask& uart = UartTask::get_instance();
+    BlinkTask& blink = BlinkTask::get_instance();
 
-    while (true)
-    {
-        PORTB |= (1 << PB5);   // LED ON
-        _delay_ms(500);
+    // init 
+    uart.initTask();
+    blink.initTask();
 
-        PORTB &= ~(1 << PB5);  // LED OFF
-        _delay_ms(500);
+
+
+
+
+    while(1){
+        // here we only have a single thread to process we are not doing with mutipile threads so we need to do a sertain amount of task and move forward . 
+
+        // ex:- on an led from cmd from uard 
+        // 1, uart task take take the cmd from uard interface pass it to module-cmd and it is done
+        // 2, cmd reads the cmd, decodes it and send it module-Blink
+        // 3, when blink task comes it goes into process task rotine and then make teh led on  
+        
+        // our task's
+        // Uart task 
+        // cmd task
+        // tlm task
+        // blink 
+
+        
+        uart.task();
+        blink.task();
+        
     }
-
     return 0;
 }
