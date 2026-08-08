@@ -7,9 +7,12 @@ int main()
 {   
     // get instance  
     UartTask& uart = UartTask::get_instance();
+    BlinkTask& blink = BlinkTask::get_instance();
 
     // init 
     uart.initTask();
+    blink.initTask();
+
 
 
 
@@ -29,10 +32,8 @@ int main()
         // blink 
 
         
-        unsigned char data[] = { 1,2,3,4,5,6,7,8,9 };
-        Cmd one(0,2,9,&data );
-        uart.nxt_cmd_queue[uart.nxt_cmd_queue_cap++] = one ;
         uart.task();
+        blink.task();
         
     }
     return 0;

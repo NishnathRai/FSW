@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 // TODO: cmd param value instead of pointer
+// solution TODO: storeing the data at runtime :- we created a data-center 
 class Cmd{
 public:
     uint16_t size;
@@ -12,4 +13,12 @@ public:
         : m_code(m), cmd_code(c), size(s), param(p)
     {
     }
+};
+
+
+// here in this file , well well he having all the cmd packets structure 
+
+class CMD_LED{
+public:
+    uint8_t action;  // 0 - OFF , 1 - ON
 };
