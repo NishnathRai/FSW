@@ -1,4 +1,4 @@
-
+#pragma once
 // here in this file , well well he having all the tlm packets structure 
 #include <stdint.h>
 
@@ -19,7 +19,7 @@ public:
 };
 
 
-class CMD_LED_RES{
+class LED_TLM{
 public:
     uint8_t action;  // 0 - OFF , 1 - ON
 };

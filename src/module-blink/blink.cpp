@@ -1,6 +1,8 @@
 #include "blink.hpp"
 #include <avr/io.h>
 #include <util/delay.h>
+#include "../module-datacenter/dataCenter.hpp"
+#include "../module-tlm/tlm.hpp"
 static BlinkTask blink_singleton;
 
 BlinkTask& BlinkTask::get_instance(){
@@ -32,6 +34,10 @@ bool BlinkTask::actionBlink_cmd( void* params ){
     else if( *temp_params == 0 ){
         PORTB &= ~(1 << PB5);  // LED OFF
     }
+    Tlm* tlm = get_tlm_data_bucket_ptr(MODULE::BLINK, MODULE::UART);
+    LED_TLM* led_tlm = (LED_TLM*)(tlm->param);
+    led_tlm->action= *temp_params;
+    notify_module_about_tlm(tlm);
     return true;
 }
 

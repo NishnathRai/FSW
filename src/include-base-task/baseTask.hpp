@@ -6,6 +6,7 @@
 //  4, processTaksRotine    the main rotine taks of that module
 #pragma once
 #include "../module-cmd/cmd.hpp"
+#include "../module-tlm/tlm.hpp"
 
 
 class BaseTask
@@ -16,8 +17,8 @@ private:
     virtual bool collectTlm() = 0;
     virtual bool postTlm() = 0;
     virtual bool processTaskRoutine() = 0;
-    static constexpr int MAX_QUEUE_CMDS = 15;
 public:
+    static constexpr int MAX_QUEUE_CMDS = 15;
     BaseTask(){};
     virtual bool initTask() = 0;
     unsigned char nxt_cmd_queue_cap = 0; 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../include-base-task/baseTask.hpp"
+#include "../module-tlm/tlm.hpp"
 #define uart_start_stop_byte 0x7E
 
 class UartTask : public BaseTask
@@ -12,14 +13,28 @@ private:
     {
         bool final = 1 ;
         for(unsigned int i=0;i< this->nxt_cmd_queue_cap ;i++){
-            Cmd& nxt_cmd = nxt_cmd_queue[i];
+            Cmd& nxt_cmd = this->nxt_cmd_queue[i];
             if (nxt_cmd.cmd_code >= MAX_CMDS)
-            return false;
-            CmdFn temp_fun = table[nxt_cmd.cmd_code];
+            {continue;}
+            // return false;
+            CmdFn temp_fun = this->table[nxt_cmd.cmd_code];
             final &= (this->*temp_fun)(&nxt_cmd);
         }
         this->nxt_cmd_queue_cap = 0;
-        return final;
+        return final && processTlm();
+    }
+    // only for uartTask
+    bool processTlm(){
+        bool final = 1;
+        for(unsigned int i=0;i< this->nxt_tlm_queue_cap; i++){
+            Tlm& nxt_tlm = this->nxt_tlm_queue[i];
+            if(nxt_tlm.cmd_code != 2)
+            {continue;}
+            // return fasle;
+            CmdFn temp_fun = this->table[2];
+            final &= (this->*temp_fun)(&nxt_tlm);
+        }
+        return true;
     }
     bool collectTlm();
     bool postTlm() ;
@@ -36,6 +51,8 @@ private:
     bool startUart_cmd(void*);
     bool sendData_cmd(void*);
 public:
+    Tlm nxt_tlm_queue[MAX_QUEUE_CMDS] ; 
+    unsigned char nxt_tlm_queue_cap = 0;
     static UartTask& get_instance();
     bool initTask();
 };

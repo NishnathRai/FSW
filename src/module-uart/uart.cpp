@@ -91,7 +91,7 @@ bool accept_cmds()
             {
                 cmd_code = *udr0_ptr;
                 /// now we have every thing src_mdl_num , dst_mdl_num let's ask data center for the static varable
-                data = get_data_bucket_ptr(MODULE::UART, MODULE(m_code));
+                data = get_cmd_data_bucket_ptr(MODULE::UART, MODULE(m_code));
                 data->cmd_code = cmd_code;
                 data->m_code = m_code;
                 data->size = size;
@@ -140,8 +140,8 @@ bool accept_cmds()
                 break;
             }
         }
-        a = STAGE;
-        sendByte_helper(&a);
+        // a = STAGE;
+        // sendByte_helper(&a);
         loop_limit--;
     } while (STAGE > 1 && loop_limit > 0);
     return true;
