@@ -18,7 +18,13 @@ public:
 
 // here in this file , well well he having all the cmd packets structure 
 
-class CMD_LED{
+class __attribute__((packed)) CMD_LED {
 public:
     uint8_t action;  // 0 - OFF , 1 - ON
+};
+
+class __attribute__((packed)) CMD_SET_REALTIME{
+public:
+    uint8_t tlm_id;
+    uint8_t action;  // 0 - OFF , 1 - ON    
 };

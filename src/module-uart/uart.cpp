@@ -99,12 +99,14 @@ bool accept_cmds()
             }
             else if (STAGE == 5)
             {
-                ((uint8_t *)data->param)[data->size - size] = *(volatile uint8_t *)udr0_ptr;
-                size--;
                 if (size == 0)
                 {
                     STAGE++;
+                    continue;;
                 }
+                uint8_t* dta_ptr =  (uint8_t*)data->param;
+                dta_ptr[ data->size - size ] = *udr0_ptr ;
+                size--;
             }
             else if (STAGE == 6)
             {

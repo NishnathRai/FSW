@@ -1,7 +1,7 @@
 #pragma once
-// here in this file , well well he having all the tlm packets structure 
+// here in this file we have all the tlm packets structure
 #include <stdint.h>
-
+#include "../module-datacenter/dataCenter_config.hpp"
 
 class Tlm{
 public:
@@ -19,7 +19,15 @@ public:
 };
 
 
-class LED_TLM{
+class  __attribute__((packed))  LED_TLM{
 public:
     uint8_t action;  // 0 - OFF , 1 - ON
+};
+class  __attribute__((packed))  UART_TLM{
+public:
+    uint8_t working;
+};
+class  __attribute__((packed)) SET_REALTIME_TLM{
+public:
+    uint8_t action_set_real_time[MAX_TLM_BUKETS_IN_DATA_CENTER];
 };

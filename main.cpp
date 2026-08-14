@@ -1,6 +1,7 @@
 #include "./src/module-blink/blink.hpp"
 #include "./src/module-uart/uard.hpp"
 #include "./src/module-cmd/cmd.hpp"
+#include "./src/module-setRealtime/setRealtime.hpp"
 
 
 int main()
@@ -8,10 +9,12 @@ int main()
     // get instance  
     UartTask& uart = UartTask::get_instance();
     BlinkTask& blink = BlinkTask::get_instance();
+    setRealtimeTask& setRealtime = setRealtimeTask::get_instance();
 
     // init 
     uart.initTask();
     blink.initTask();
+    setRealtime.initTask();
 
 
 
@@ -34,6 +37,7 @@ int main()
         
         uart.task();
         blink.task();
+        setRealtime.task();
         
     }
     return 0;

@@ -12,6 +12,7 @@ src/module-blink/blink.cpp
 src/module-uart/uart.cpp
 # src/module-cmd/cmd.cpp
 src/module-datacenter/dataCenter.cpp
+src/module-setRealtime/setRealtime.cpp
 )
 
 target_compile_options(blink.elf PRIVATE
