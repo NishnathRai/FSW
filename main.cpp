@@ -2,6 +2,7 @@
 #include "./src/module-uart/uard.hpp"
 #include "./src/module-cmd/cmd.hpp"
 #include "./src/module-setRealtime/setRealtime.hpp"
+#include "./src/module-rtc/rtc.hpp"
 
 
 int main()
@@ -10,12 +11,13 @@ int main()
     UartTask& uart = UartTask::get_instance();
     BlinkTask& blink = BlinkTask::get_instance();
     setRealtimeTask& setRealtime = setRealtimeTask::get_instance();
+    RtcTask& rtc = RtcTask::get_instance();
 
     // init 
     uart.initTask();
     blink.initTask();
     setRealtime.initTask();
-
+    rtc.initTask();
 
 
 
@@ -34,7 +36,7 @@ int main()
         // tlm task
         // blink 
 
-        
+        rtc.task();
         uart.task();
         blink.task();
         setRealtime.task();
