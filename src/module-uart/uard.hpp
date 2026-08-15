@@ -34,6 +34,7 @@ private:
             CmdFn temp_fun = this->table[2];
             final &= (this->*temp_fun)(&nxt_tlm);
         }
+        this->nxt_tlm_queue_cap = 0;
         return true;
     }
     bool collectTlm();

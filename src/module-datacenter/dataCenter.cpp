@@ -59,11 +59,11 @@ static Tlm tlm_from_blink_to_uart( ( unsigned char)MODULE::UART, 2,  ( unsigned 
 static DATA_BUCKET tlm_data_bucket_from_blink_to_uart(MODULE::BLINK, MODULE::UART, &tlm_from_blink_to_uart);
 // ---
 static UART_TLM tlm_params_from_uart_to_uart;
-static Tlm tlm_from_uart_to_uart( (unsigned char)MODULE::UART, 2,  ( unsigned char)MODULE::UART, 1, sizeof(UART_TLM), &tlm_params_from_uart_to_uart);
+static Tlm tlm_from_uart_to_uart( (unsigned char)MODULE::UART, 2,  ( unsigned char)MODULE::UART, 0, sizeof(UART_TLM), &tlm_params_from_uart_to_uart);
 static DATA_BUCKET tlm_data_bucket_from_uart_to_uart(MODULE::UART, MODULE::UART, &tlm_from_uart_to_uart);
 // ---
 static SET_REALTIME_TLM tlm_params_from_set_realtime_to_uart;
-static Tlm tlm_from_set_realtime_to_uart( (unsigned char)MODULE::UART, 2,  ( unsigned char)MODULE::SET_REALTIME, 2, sizeof(SET_REALTIME_TLM), &tlm_params_from_set_realtime_to_uart  );
+static Tlm tlm_from_set_realtime_to_uart( (unsigned char)MODULE::UART, 2,  ( unsigned char)MODULE::SET_REALTIME, 0, sizeof(SET_REALTIME_TLM), &tlm_params_from_set_realtime_to_uart  );
 static DATA_BUCKET tlm_data_bucket_from_set_realtime_to_uart(MODULE::SET_REALTIME, MODULE::UART, &tlm_from_set_realtime_to_uart);
 // +------
 static DATA_BUCKET* tlm_data_center[MAX_TLM_BUKETS_IN_DATA_CENTER] =
