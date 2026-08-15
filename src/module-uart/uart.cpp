@@ -157,6 +157,10 @@ bool UartTask::initTask()
     *ucsr0a_ptr = 1 << 1;
     *ucsr0b_ptr = 0b00011000;
     *ucsr0c_ptr = 0b00100110;
+
+    Tlm* tlm = get_tlm_data_bucket_ptr(MODULE::UART, MODULE::UART);
+    UART_TLM* uart_tlm = (UART_TLM*)(tlm->param);
+    uart_tlm->working = 1;
     return true;
 }
 
