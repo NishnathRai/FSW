@@ -125,6 +125,7 @@ bool accept_cmds()
                     //     STAGE = 0;
                     STAGE++;
                     // }
+                    length_started = 0;
                 }
             }
             else if (STAGE == 7)
@@ -138,7 +139,6 @@ bool accept_cmds()
                 else {
                     STAGE = 0;
                 }
-                STAGE = 1;
                 break;
             }
         }
@@ -146,6 +146,8 @@ bool accept_cmds()
         // sendByte_helper(&a);
         loop_limit--;
     } while (STAGE > 1 && loop_limit > 0);
+    loop_limit = 200;
+    STAGE = 1;
     return true;
 }
 

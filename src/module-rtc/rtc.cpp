@@ -39,7 +39,7 @@ bool RtcTask::postTlm(){
 // 31,250 in hexadecimal is 0x7A12.Breakdown
 bool RtcTask::processTaskRoutine(){
     this->rtc_time = ( *tcnt1h_ptr << 8 ) | ( *tcnt1l_ptr );
-    if( rtc_time >=31250  ){
+    if( this->rtc_time >=31250  ){
         //we completed 500 ms
         *tcnt1h_ptr = 0;
         *tcnt1l_ptr = 0;

@@ -10,7 +10,7 @@
 //for cmd's
 // +------
 static CMD_LED cmd_params_from_uart_to_blink;
-static Cmd cmd_from_uart_to_blink((unsigned char)MODULE::UART , 0, sizeof(CMD_LED), &cmd_params_from_uart_to_blink);
+static Cmd cmd_from_uart_to_blink((unsigned char)MODULE::BLINK , 0, sizeof(CMD_LED), &cmd_params_from_uart_to_blink);
 static DATA_BUCKET cmd_data_bucket_from_uart_to_blink(MODULE::UART, MODULE::BLINK, &cmd_from_uart_to_blink);
 // ---
 static CMD_SET_REALTIME cmd_params_from_uart_to_set_realtime;
