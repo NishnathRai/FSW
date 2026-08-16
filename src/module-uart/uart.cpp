@@ -59,7 +59,6 @@ bool accept_cmds()
     static unsigned char m_code = 0;
     static unsigned char cmd_code = 0;
     static bool length_started = 0;
-    static unsigned char loop_limit = 200;
     do
     {
         if (*ucsr0a_ptr & (1 << 7))
@@ -141,12 +140,13 @@ bool accept_cmds()
                 }
                 break;
             }
+            else{
+                STAGE = 0;
+            }
         }
         // a = STAGE;
         // sendByte_helper(&a);
-        loop_limit--;
-    } while (STAGE > 1 && loop_limit > 0);
-    loop_limit = 200;
+    } while ( STAGE > 1 && STAGE != 0 && STAGE !=8 );
     STAGE = 1;
     return true;
 }
