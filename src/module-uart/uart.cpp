@@ -59,7 +59,6 @@ bool accept_cmds()
     static unsigned char m_code = 0;
     static unsigned char cmd_code = 0;
     static bool length_started = 0;
-    static unsigned char loop_limit = 200;
     do
     {
         if (*ucsr0a_ptr & (1 << 7))
@@ -91,7 +90,7 @@ bool accept_cmds()
             {
                 cmd_code = *udr0_ptr;
                 /// now we have every thing src_mdl_num , dst_mdl_num let's ask data center for the static varable
-                data = get_data_bucket_ptr(MODULE::UART, MODULE(m_code));
+                data = get_cmd_data_bucket_ptr(MODULE::UART, MODULE(m_code));
                 data->cmd_code = cmd_code;
                 data->m_code = m_code;
                 data->size = size;
@@ -99,12 +98,14 @@ bool accept_cmds()
             }
             else if (STAGE == 5)
             {
-                ((uint8_t *)data->param)[data->size - size] = *(volatile uint8_t *)udr0_ptr;
-                size--;
                 if (size == 0)
                 {
                     STAGE++;
+                    continue;;
                 }
+                uint8_t* dta_ptr =  (uint8_t*)data->param;
+                dta_ptr[ data->size - size ] = *udr0_ptr ;
+                size--;
             }
             else if (STAGE == 6)
             {
@@ -123,6 +124,7 @@ bool accept_cmds()
                     //     STAGE = 0;
                     STAGE++;
                     // }
+                    length_started = 0;
                 }
             }
             else if (STAGE == 7)
@@ -136,14 +138,16 @@ bool accept_cmds()
                 else {
                     STAGE = 0;
                 }
-                STAGE = 1;
                 break;
             }
+            else{
+                STAGE = 0;
+            }
         }
-        a = STAGE;
-        sendByte_helper(&a);
-        loop_limit--;
-    } while (STAGE > 1 && loop_limit > 0);
+        // a = STAGE;
+        // sendByte_helper(&a);
+    } while ( STAGE > 1 && STAGE != 0 && STAGE !=8 );
+    STAGE = 1;
     return true;
 }
 
@@ -155,6 +159,10 @@ bool UartTask::initTask()
     *ucsr0a_ptr = 1 << 1;
     *ucsr0b_ptr = 0b00011000;
     *ucsr0c_ptr = 0b00100110;
+
+    Tlm* tlm = get_tlm_data_bucket_ptr(MODULE::UART, MODULE::UART);
+    UART_TLM* uart_tlm = (UART_TLM*)(tlm->param);
+    uart_tlm->working = 1;
     return true;
 }
 
