@@ -39,7 +39,9 @@ bool setRealtimeTask::processTaskRoutine(){
     static uint16_t rtc_time_old = 0;
     static uint16_t rtc_time_new = 0;
     static uint8_t loop_i_s = 0 ;
-    rtc_time_new = RtcTask::get_instance().get_rtc_time_s();
+    Tlm* tlm_from_rtc_to_uart = get_tlm_data_bucket_ptr( MODULE::RTC, MODULE::UART );
+    RTC_TLM* rtc_time_new_obj = (RTC_TLM*)(tlm_from_rtc_to_uart->param);
+    rtc_time_new = rtc_time_new_obj->rtc_time_s;
     if( rtc_time_new==rtc_time_old && loop_i_s == 0 ){
         return true;
     }

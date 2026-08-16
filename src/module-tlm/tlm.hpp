@@ -31,3 +31,10 @@ class  __attribute__((packed)) SET_REALTIME_TLM{
 public:
     uint8_t action_set_real_time[MAX_TLM_BUKETS_IN_DATA_CENTER];
 };
+
+class  __attribute__((packed)) RTC_TLM{
+public:
+    uint16_t rtc_time;
+    uint16_t rtc_time_ms;
+    uint16_t rtc_time_s;
+};

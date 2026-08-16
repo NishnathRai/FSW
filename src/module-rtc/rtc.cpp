@@ -1,5 +1,7 @@
 #include "../module-rtc/rtc.hpp"
 #include "../include-reg/reg.hpp"
+#include "../module-datacenter/dataCenter.hpp"
+#include "../module-tlm/tlm.hpp"
 
 volatile uint8_t* tcnt1h_ptr = (uint8_t*)TCNT1H;
 volatile uint8_t* tcnt1l_ptr = (uint8_t*)TCNT1L;
@@ -34,6 +36,11 @@ bool RtcTask::collectTlm(){
     return true;
 };
 bool RtcTask::postTlm(){
+    Tlm* rtc_tlm_p = get_tlm_by_tlm_id(3);
+    RTC_TLM* rtc_tlm = (RTC_TLM*)(rtc_tlm_p->param);
+    rtc_tlm->rtc_time = this->get_rtc_time();
+    rtc_tlm->rtc_time_ms =this->get_rtc_time_ms();
+    rtc_tlm->rtc_time_s =this->get_rtc_time_s();
     return true;
 };
 // 31,250 in hexadecimal is 0x7A12.Breakdown

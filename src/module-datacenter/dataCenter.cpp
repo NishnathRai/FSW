@@ -6,6 +6,7 @@
 #include "../module-blink/blink.hpp"
 #include "../module-uart/uard.hpp"
 #include "../module-setRealtime/setRealtime.hpp"
+#include "../module-rtc/rtc.hpp"
 
 //for cmd's
 // +------
@@ -43,6 +44,9 @@ BaseTask* get_instance_through_m_code(MODULE m_num){
     else if(MODULE::SET_REALTIME == m_num){
         return (BaseTask*)(&setRealtimeTask::get_instance());
     }
+    else if(MODULE::RTC == m_num){
+        return (BaseTask*)(&RtcTask::get_instance());
+    }
     return nullptr;
 }
 
@@ -65,12 +69,17 @@ static DATA_BUCKET tlm_data_bucket_from_uart_to_uart(MODULE::UART, MODULE::UART,
 static SET_REALTIME_TLM tlm_params_from_set_realtime_to_uart;
 static Tlm tlm_from_set_realtime_to_uart( (unsigned char)MODULE::UART, 2,  ( unsigned char)MODULE::SET_REALTIME, 0, sizeof(SET_REALTIME_TLM), &tlm_params_from_set_realtime_to_uart  );
 static DATA_BUCKET tlm_data_bucket_from_set_realtime_to_uart(MODULE::SET_REALTIME, MODULE::UART, &tlm_from_set_realtime_to_uart);
+// ---
+static RTC_TLM tlm_params_from_rtc_to_uart;
+static Tlm tlm_from_rtc_to_uart( (unsigned char)MODULE::UART, 2,  ( unsigned char)MODULE::RTC, 0, sizeof(RTC_TLM), &tlm_params_from_rtc_to_uart  );
+static DATA_BUCKET tlm_data_bucket_from_rtc_to_uart( MODULE::RTC, MODULE::UART, &tlm_from_rtc_to_uart);
 // +------
 static DATA_BUCKET* tlm_data_center[MAX_TLM_BUKETS_IN_DATA_CENTER] =
 {
     &tlm_data_bucket_from_blink_to_uart,
     &tlm_data_bucket_from_uart_to_uart,
-    &tlm_data_bucket_from_set_realtime_to_uart
+    &tlm_data_bucket_from_set_realtime_to_uart,
+    &tlm_data_bucket_from_rtc_to_uart
 };
 
 bool notify_module_about_tlm(Tlm *tlm_pointer){
