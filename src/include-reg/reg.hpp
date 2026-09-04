@@ -31,3 +31,6 @@
 #define ICR1L  0x86
 #define TIMSK1 0x6F
 #define TIFR1  0x36
+
+// AVR status reg 
+#define SREG 0x5F

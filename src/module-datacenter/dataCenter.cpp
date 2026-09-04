@@ -7,6 +7,7 @@
 #include "../module-uart/uard.hpp"
 #include "../module-setRealtime/setRealtime.hpp"
 #include "../module-rtc/rtc.hpp"
+#include "../module-i2c/i2c.hpp"
 
 //for cmd's
 // +------
@@ -47,6 +48,9 @@ BaseTask* get_instance_through_m_code(MODULE m_num){
     else if(MODULE::RTC == m_num){
         return (BaseTask*)(&RtcTask::get_instance());
     }
+    else if(MODULE::I2C == m_num){
+        return (BaseTask*)(&I2cTask::get_instance());
+    }
     return nullptr;
 }
 
@@ -73,13 +77,18 @@ static DATA_BUCKET tlm_data_bucket_from_set_realtime_to_uart(MODULE::SET_REALTIM
 static RTC_TLM tlm_params_from_rtc_to_uart;
 static Tlm tlm_from_rtc_to_uart( (unsigned char)MODULE::UART, 2,  ( unsigned char)MODULE::RTC, 0, sizeof(RTC_TLM), &tlm_params_from_rtc_to_uart  );
 static DATA_BUCKET tlm_data_bucket_from_rtc_to_uart( MODULE::RTC, MODULE::UART, &tlm_from_rtc_to_uart);
+// ---
+static I2C_TLM tlm_params_from_i2c_to_uart;
+static Tlm tlm_from_i2c_to_uart( (unsigned char)MODULE::UART, 2, ( unsigned char)MODULE::I2C, 0, sizeof(I2C_TLM), &tlm_params_from_i2c_to_uart );
+static DATA_BUCKET tlm_data_bucket_from_i2c_to_uart(MODULE::I2C, MODULE::UART, &tlm_from_i2c_to_uart);
 // +------
 static DATA_BUCKET* tlm_data_center[MAX_TLM_BUKETS_IN_DATA_CENTER] =
 {
     &tlm_data_bucket_from_blink_to_uart,
     &tlm_data_bucket_from_uart_to_uart,
     &tlm_data_bucket_from_set_realtime_to_uart,
-    &tlm_data_bucket_from_rtc_to_uart
+    &tlm_data_bucket_from_rtc_to_uart,
+    &tlm_data_bucket_from_i2c_to_uart
 };
 
 bool notify_module_about_tlm(Tlm *tlm_pointer){

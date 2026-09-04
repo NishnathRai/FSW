@@ -3,7 +3,7 @@
 #include "./src/module-cmd/cmd.hpp"
 #include "./src/module-setRealtime/setRealtime.hpp"
 #include "./src/module-rtc/rtc.hpp"
-
+#include "./src/module-i2c/i2c.hpp"
 
 int main()
 {   
@@ -12,12 +12,14 @@ int main()
     BlinkTask& blink = BlinkTask::get_instance();
     setRealtimeTask& setRealtime = setRealtimeTask::get_instance();
     RtcTask& rtc = RtcTask::get_instance();
+    I2cTask& i2c = I2cTask::get_instance();
 
     // init 
     uart.initTask();
     blink.initTask();
     setRealtime.initTask();
     rtc.initTask();
+    i2c.initTask();
 
 
 
@@ -40,6 +42,7 @@ int main()
         uart.task();
         blink.task();
         setRealtime.task();
+        i2c.task();
         
     }
     return 0;

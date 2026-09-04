@@ -8,7 +8,7 @@ set(F_CPU 16000000UL)
 add_executable(blink.elf 
 main.cpp
 src/module-blink/blink.cpp
-# src/module-i2c/i2c.cpp
+src/module-i2c/i2c.cpp
 src/module-uart/uart.cpp
 # src/module-cmd/cmd.cpp
 src/module-datacenter/dataCenter.cpp

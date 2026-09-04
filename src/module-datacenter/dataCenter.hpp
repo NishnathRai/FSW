@@ -13,7 +13,8 @@ enum class MODULE{
     BLINK,
     UART,
     SET_REALTIME,
-    RTC
+    RTC,
+    I2C
 };
 
 

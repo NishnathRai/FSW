@@ -2,6 +2,7 @@
 // here in this file we have all the tlm packets structure
 #include <stdint.h>
 #include "../module-datacenter/dataCenter_config.hpp"
+#include "../module-i2c/i2c_config.hpp"
 
 class Tlm{
 public:
@@ -31,10 +32,14 @@ class  __attribute__((packed)) SET_REALTIME_TLM{
 public:
     uint8_t action_set_real_time[MAX_TLM_BUKETS_IN_DATA_CENTER];
 };
-
 class  __attribute__((packed)) RTC_TLM{
 public:
     uint16_t rtc_time;
     uint16_t rtc_time_ms;
     uint16_t rtc_time_s;
+};
+class __attribute__((packed)) I2C_TLM{
+public:
+    uint8_t i2c_8_bit_data_reg_data [ SIZE_i2c_8_bit_slaves ][ SIZE_i2c_8_bit_data_reg ];
+    uint8_t i2c_8_bit_data_reg [ SIZE_i2c_8_bit_slaves ][ SIZE_i2c_8_bit_data_reg+1 ];
 };
